@@ -1,6 +1,6 @@
-package com.example.amr.mvp_retrofit_demo.MainActivityMVP;
+package com.example.amr.mvp_retrofit_demo.home;
 
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 
 import java.util.List;
 
@@ -20,11 +20,10 @@ public class MainPresenter implements MainMVP.Presenter, MainMVP.Model.OnFinishe
     }
 
     @Override
-    public void requestDataFromAPI() {
+    public void requestDataFromAPI(String topRated) {
         if (view != null) {
             view.showProgress();
-            String TOP_RATED = "top_rated";
-            model.getMoviesList(TOP_RATED, this);
+            model.getMoviesList(topRated, this);
         }
     }
 

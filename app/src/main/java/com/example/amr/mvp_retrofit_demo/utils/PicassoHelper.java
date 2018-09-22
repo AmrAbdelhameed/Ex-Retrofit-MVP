@@ -1,4 +1,4 @@
-package com.example.amr.mvp_retrofit_demo.Helpers;
+package com.example.amr.mvp_retrofit_demo.utils;
 
 import android.content.Context;
 import android.widget.ImageView;

@@ -1,8 +1,6 @@
-package com.example.amr.mvp_retrofit_demo.Network;
+package com.example.amr.mvp_retrofit_demo.network;
 
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
-
-import java.util.List;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

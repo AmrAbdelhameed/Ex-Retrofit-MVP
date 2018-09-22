@@ -1,20 +1,18 @@
-package com.example.amr.mvp_retrofit_demo.MainActivityMVP;
+package com.example.amr.mvp_retrofit_demo.home;
 
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 
 import java.util.List;
 
 public interface MainMVP {
 
     interface Presenter {
-
         void onDestroy();
 
-        void requestDataFromAPI();
+        void requestDataFromAPI(String topRated);
     }
 
     interface View {
-
         void showProgress();
 
         void hideProgress();
@@ -27,11 +25,9 @@ public interface MainMVP {
     }
 
     interface Model {
-
         void getMoviesList(String theme, OnFinishedListener onFinishedListener);
 
         interface OnFinishedListener {
-
             void onFinishedSuccess(List<Movie.ResultsBean> resultsBeans);
 
             void onFinishedFailed(String message);

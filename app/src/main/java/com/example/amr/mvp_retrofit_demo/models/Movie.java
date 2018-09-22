@@ -1,4 +1,4 @@
-package com.example.amr.mvp_retrofit_demo.Models;
+package com.example.amr.mvp_retrofit_demo.models;
 
 import java.util.List;
 

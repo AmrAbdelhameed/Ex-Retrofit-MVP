@@ -1,4 +1,4 @@
-package com.example.amr.mvp_retrofit_demo.Adapters;
+package com.example.amr.mvp_retrofit_demo.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.amr.mvp_retrofit_demo.Helpers.PicassoHelper;
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
+import com.example.amr.mvp_retrofit_demo.utils.AppManger;
+import com.example.amr.mvp_retrofit_demo.utils.PicassoHelper;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 import com.example.amr.mvp_retrofit_demo.R;
-import com.example.amr.mvp_retrofit_demo.Utils.RecyclerItemClickListener;
+import com.example.amr.mvp_retrofit_demo.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
         holder.movie_title.setText(resultsBean.getTitle());
 
-        String imageURL = "https://image.tmdb.org/t/p/w154/" + resultsBean.getPoster_path();
+        String imageURL = AppManger.imageBaseURL + resultsBean.getPoster_path();
         new PicassoHelper().loadImage(context, imageURL, holder.movie_image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

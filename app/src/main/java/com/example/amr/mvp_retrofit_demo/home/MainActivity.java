@@ -1,4 +1,4 @@
-package com.example.amr.mvp_retrofit_demo.MainActivityMVP;
+package com.example.amr.mvp_retrofit_demo.home;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +9,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.amr.mvp_retrofit_demo.Adapters.MoviesAdapter;
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 import com.example.amr.mvp_retrofit_demo.R;
-import com.example.amr.mvp_retrofit_demo.Utils.RecyclerItemClickListener;
+import com.example.amr.mvp_retrofit_demo.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainMVP.View {
 
+    String topRated = "top_rated";
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private MainMVP.Presenter Presenter;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
         init();
 
         Presenter = new MainPresenter(MainActivity.this, new MainModel());
-        Presenter.requestDataFromAPI();
+        Presenter.requestDataFromAPI(topRated);
     }
 
     private void init() {
@@ -60,13 +60,11 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
 
     @Override
     public void setData(List<Movie.ResultsBean> resultsBeans) {
-
         MoviesAdapter adapter = new MoviesAdapter(MainActivity.this, resultsBeans, recyclerItemClickListener);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
     }
 
     @Override

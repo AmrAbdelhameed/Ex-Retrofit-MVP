@@ -1,4 +1,4 @@
-package com.example.amr.mvp_retrofit_demo.Network;
+package com.example.amr.mvp_retrofit_demo.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

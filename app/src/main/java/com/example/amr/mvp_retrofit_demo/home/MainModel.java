@@ -1,10 +1,10 @@
-package com.example.amr.mvp_retrofit_demo.MainActivityMVP;
+package com.example.amr.mvp_retrofit_demo.home;
 
 import android.support.annotation.NonNull;
 
-import com.example.amr.mvp_retrofit_demo.Models.Movie;
-import com.example.amr.mvp_retrofit_demo.Network.APIService;
-import com.example.amr.mvp_retrofit_demo.Network.ApiUtils;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
+import com.example.amr.mvp_retrofit_demo.network.APIService;
+import com.example.amr.mvp_retrofit_demo.network.ApiUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,7 +16,6 @@ public class MainModel implements MainMVP.Model {
 
     @Override
     public void getMoviesList(String theme, final OnFinishedListener onFinishedListener) {
-
         mAPIService.getMovies(theme).enqueue(new Callback<Movie>() {
 
             @Override
@@ -24,9 +23,8 @@ public class MainModel implements MainMVP.Model {
 
                 if (response.isSuccessful())
                     onFinishedListener.onFinishedSuccess(response.body().getResults());
-                else {
+                else
                     onFinishedListener.onFinishedFailed(response.body().toString());
-                }
             }
 
             @Override
@@ -34,6 +32,5 @@ public class MainModel implements MainMVP.Model {
                 onFinishedListener.onFailure(t);
             }
         });
-
     }
 }
