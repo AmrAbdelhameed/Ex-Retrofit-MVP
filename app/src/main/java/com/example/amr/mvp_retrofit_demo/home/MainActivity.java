@@ -9,28 +9,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.amr.mvp_retrofit_demo.models.Movie;
 import com.example.amr.mvp_retrofit_demo.R;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 import com.example.amr.mvp_retrofit_demo.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainMVP.View {
-
-    String topRated = "top_rated";
+public class MainActivity extends AppCompatActivity implements MainMVP.View, RecyclerItemClickListener {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private MainMVP.Presenter Presenter;
-
-    private RecyclerItemClickListener recyclerItemClickListener = new RecyclerItemClickListener() {
-        @Override
-        public void onItemClick(Movie.ResultsBean resultsBean) {
-
-            Toast.makeText(MainActivity.this,
-                    resultsBean.getTitle(),
-                    Toast.LENGTH_LONG).show();
-        }
-    };
+    private MoviesAdapter moviesAdapter;
+    private MainMVP.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +28,24 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
 
         init();
 
-        Presenter = new MainPresenter(MainActivity.this, new MainModel());
-        Presenter.requestDataFromAPI(topRated);
+        presenter = new MainPresenter(MainActivity.this, new MainModel());
+        String topRated = "top_rated";
+        presenter.requestDataFromAPI(topRated);
     }
 
     private void init() {
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recycler_view);
+
+        setUpRecyclerView();
+    }
+
+    private void setUpRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        moviesAdapter = new MoviesAdapter(this, this);
+        recyclerView.setAdapter(moviesAdapter);
     }
 
     @Override
@@ -60,30 +60,27 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
 
     @Override
     public void setData(List<Movie.ResultsBean> resultsBeans) {
-        MoviesAdapter adapter = new MoviesAdapter(MainActivity.this, resultsBeans, recyclerItemClickListener);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        moviesAdapter.setResultsBeans(resultsBeans);
     }
 
     @Override
     public void onResponseFailed(String message) {
-        Toast.makeText(MainActivity.this,
-                message,
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponseFailure(Throwable throwable) {
-        Toast.makeText(MainActivity.this,
-                throwable.getMessage(),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Presenter.onDestroy();
+        presenter.onDestroy();
+    }
+
+    @Override
+    public void onItemClick(Movie.ResultsBean resultsBean) {
+        Toast.makeText(MainActivity.this, resultsBean.getTitle(), Toast.LENGTH_LONG).show();
     }
 }

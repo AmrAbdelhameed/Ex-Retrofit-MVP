@@ -10,24 +10,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.amr.mvp_retrofit_demo.R;
+import com.example.amr.mvp_retrofit_demo.models.Movie;
 import com.example.amr.mvp_retrofit_demo.utils.AppManger;
 import com.example.amr.mvp_retrofit_demo.utils.PicassoHelper;
-import com.example.amr.mvp_retrofit_demo.models.Movie;
-import com.example.amr.mvp_retrofit_demo.R;
 import com.example.amr.mvp_retrofit_demo.utils.RecyclerItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
-
     private Context context;
     private List<Movie.ResultsBean> resultsBeans;
     private RecyclerItemClickListener recyclerItemClickListener;
 
-    public MoviesAdapter(Context context, List<Movie.ResultsBean> resultsBeans, RecyclerItemClickListener recyclerItemClickListener) {
+    MoviesAdapter(Context context, RecyclerItemClickListener recyclerItemClickListener) {
         this.context = context;
-        this.resultsBeans = resultsBeans;
+        this.resultsBeans = new ArrayList<>();
         this.recyclerItemClickListener = recyclerItemClickListener;
+    }
+
+    public void setResultsBeans(List<Movie.ResultsBean> resultsBeans) {
+        this.resultsBeans = resultsBeans;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,25 +40,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_in_movies, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         Movie.ResultsBean resultsBean = resultsBeans.get(position);
-
-        holder.movie_title.setText(resultsBean.getTitle());
-
-        String imageURL = AppManger.imageBaseURL + resultsBean.getPoster_path();
-        new PicassoHelper().loadImage(context, imageURL, holder.movie_image);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerItemClickListener.onItemClick(resultsBeans.get(position));
-            }
-        });
+        holder.bind(resultsBean);
     }
 
     @Override
@@ -61,14 +54,28 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return resultsBeans.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageView movie_image;
-        public TextView movie_title;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        private ImageView movie_image;
+        private TextView movie_title;
 
         MyViewHolder(View view) {
             super(view);
             movie_image = view.findViewById(R.id.movie_image);
             movie_title = view.findViewById(R.id.movie_title);
+        }
+
+        void bind(final Movie.ResultsBean resultsBean) {
+            movie_title.setText(resultsBean.getTitle());
+
+            String imageURL = AppManger.imageBaseURL + resultsBean.getPoster_path();
+            new PicassoHelper().loadImage(context, imageURL, movie_image);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerItemClickListener.onItemClick(resultsBean);
+                }
+            });
         }
     }
 }

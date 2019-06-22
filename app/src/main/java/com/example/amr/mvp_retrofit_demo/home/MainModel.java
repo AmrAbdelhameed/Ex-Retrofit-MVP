@@ -11,7 +11,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainModel implements MainMVP.Model {
-
     private APIService mAPIService = ApiUtils.getAPIService();
 
     @Override
@@ -20,7 +19,6 @@ public class MainModel implements MainMVP.Model {
 
             @Override
             public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
-
                 if (response.isSuccessful())
                     onFinishedListener.onFinishedSuccess(response.body().getResults());
                 else

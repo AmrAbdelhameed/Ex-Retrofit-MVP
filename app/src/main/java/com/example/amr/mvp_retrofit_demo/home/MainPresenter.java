@@ -5,7 +5,6 @@ import com.example.amr.mvp_retrofit_demo.models.Movie;
 import java.util.List;
 
 public class MainPresenter implements MainMVP.Presenter, MainMVP.Model.OnFinishedListener {
-
     private MainMVP.View view;
     private MainMVP.Model model;
 
